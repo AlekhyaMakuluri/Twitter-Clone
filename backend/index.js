@@ -1,14 +1,20 @@
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const express = require('express')
 const cors = require('cors')
-const uri = "mongodb+srv://admin:<password>@twitter-clone.nvhzm.mongodb.net/?retryWrites=true&w=majority&appName=twitter-clone";
+const uri = `mongodb+srv://admin:admin@twitter-clone.nvhzm.mongodb.net/?retryWrites=true&w=majority&appName=twitter-clone`;
 const port = 5000;
 
 const app = express()
-app.use(cors())
 app.use(express.json())
 
-const client = new MongoClient(uri);
+let corsOptions = {
+  origin : "*",
+ credentials: true,
+ methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+}
+app.use(cors(corsOptions))
+
+const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 
 async function run() {
   try {
